@@ -1,0 +1,7 @@
+-06-21
+-Herry
+ALTER TABLE `baibapay_test`.`path_bank`
+  DROP COLUMN `deal_money_high`,
+  DROP COLUMN `deal_money_limit`,
+  DROP COLUMN `deal_use_high`,
+  DROP COLUMN `deal_use_limit`;

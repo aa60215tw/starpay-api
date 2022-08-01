@@ -1,0 +1,44 @@
+# baibapay-apache2:
+    # stage: deploy
+    # only:
+        # - master
+    # script:
+        # - rsync -arv --no-g --no-p --no-t --delete --exclude-from=/home/gitlab-runner/exclude-file . /var/www/starpay-api/
+    # tags:
+        # - baibapay-apache2
+
+baibapay-apache3:
+    stage: deploy
+    only:
+        - master
+    script:
+        - rsync -arv --no-g --no-p --no-t --delete --exclude-from=/home/gitlab-runner/exclude-file . /var/www/starpay-api/
+    tags:
+        - baibapay-apache3
+
+baibapay-apache1:
+    stage: deploy
+    only:
+        - master
+    script:
+        - rsync -arv --no-g --no-p --no-t --delete --exclude-from=/home/gitlab-runner/exclude-file . /var/www/starpay-api/
+    tags:
+        - baibapay-apache1
+
+dev-api:
+    stage: deploy
+    only:
+        - develop
+    script:
+        - rsync -arv --no-g --no-p --no-t --delete --exclude-from=/home/gitlab-runner/exclude-file . /var/www/starpay-api/
+    tags:
+        - dev-api
+
+callback-baibapay:
+    stage: deploy
+    only:
+        - master
+    script:
+        - rsync -arv --no-g --no-p --no-t --delete --exclude-from=/home/gitlab-runner/exclude-file . /var/www/starpay-api/
+    tags:
+        - callback

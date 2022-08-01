@@ -1,0 +1,9 @@
+-07-16
+-Leo
+ALTER TABLE `path_bank`
+ADD COLUMN `obtp_code`  varchar(255) NULL AFTER `status`;
+
+-07-20
+-LEO
+ALTER TABLE `pay_order`
+ADD COLUMN `otpb_code`  varchar(20) NULL AFTER `wallet_status`;

@@ -1,0 +1,21 @@
+-06-21
+-Herry
+ALTER TABLE `baibapay_test`.`pool`   
+  DROP COLUMN `deal_use_high`, 
+  DROP COLUMN `deal_use_limit`, 
+  DROP COLUMN `deal_money_high`, 
+  DROP COLUMN `deal_money_limit`;
+  ADD COLUMN `today_money` INT NULL AFTER `today_money`,
+  ADD COLUMN `today_use` INT NULL AFTER `today_use`;
+
+ALTER TABLE `baibapay_test`.`t_member`   
+  DROP COLUMN `deal_use_high`, 
+  DROP COLUMN `deal_use_limit`, 
+  DROP COLUMN `deal_money_high`, 
+  DROP COLUMN `deal_money_limit`;
+
+ALTER TABLE `baibapay_test`.`path_bank`   
+  ADD COLUMN `deal_money_high` DOUBLE(10,3) NULL AFTER `status`,
+  ADD COLUMN `deal_money_limit` DOUBLE(10,3) NULL AFTER `deal_money_high`,
+  ADD COLUMN `deal_use_high` INT NULL AFTER `deal_money_limit`,
+  ADD COLUMN `deal_use_limit` INT NULL AFTER `deal_use_high`;

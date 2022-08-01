@@ -1,0 +1,7 @@
+{
+    "require": {
+        "vlucas/phpdotenv": "^2.4",
+        "libern/qr-code-reader": "^1.0",
+        "ipip/db": "^1.0"
+    }
+}

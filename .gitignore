@@ -1,0 +1,7 @@
+.idea/
+.env
+*.log
+paydo/
+/public/qrcode/*.png
+/public/images/qrcode
+.vendor/

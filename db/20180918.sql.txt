@@ -1,0 +1,105 @@
+/*
+2018-09-18
+Jordan
+*/
+
+-- phpMyAdmin SQL Dump
+-- version 4.6.6deb5
+-- https://www.phpmyadmin.net/
+--
+-- 主機: 35.194.184.219
+-- 產生時間： 2018 年 09 月 18 日 14:40
+-- 伺服器版本: 5.7.14-google-log
+-- PHP 版本： 7.2.7-0ubuntu0.18.04.2
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+DROP PROCEDURE IF EXISTS seqProcedure;
+DROP FUNCTION IF EXISTS seq;
+
+DELIMITER $$
+--
+-- Procedure
+--
+CREATE PROCEDURE `seqProcedure` (IN `in_name` VARCHAR(20) CHARSET utf8, OUT `return_val` VARCHAR(50) CHARSET utf8)  BEGIN
+    SET return_val = '';
+    SET @prefix = '';
+    SET @pad_zero = 0;
+    SET @val = 0;
+
+    UPDATE sequence SET val=(@val := val)+FLOOR((RAND() * 9) + 1) WHERE name=in_name LIMIT 1;
+
+    IF (@val > 0) THEN
+        SELECT
+            prefix,
+            pad_zero
+        INTO
+            @prefix, @pad_zero
+        FROM sequence
+        WHERE name=in_name LIMIT 1;
+
+        SET return_val = CONCAT(@prefix, LPAD(@val, @pad_zero, "0"));
+
+    ELSE
+        IF in_name <> "other" THEN
+            CALL seqProcedure('other', return_val);
+        END IF;
+    END IF;
+
+END$$
+
+--
+-- 函數
+--
+CREATE FUNCTION `seq` (`name` VARCHAR(20)) RETURNS VARCHAR(50) CHARSET utf8 BEGIN
+    SET @@session.max_sp_recursion_depth = 2;
+    SET @result = '';
+    CALL seqProcedure(name, @result);
+    RETURN @result;
+END$$
+
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `sequence`
+--
+
+DROP TABLE IF EXISTS sequence;
+
+CREATE TABLE `sequence` (
+  `name` varchar(20) NOT NULL,
+  `prefix` varchar(20) NOT NULL,
+  `pad_zero` int(11) NOT NULL,
+  `val` int(11) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 資料表的匯出資料 `sequence`
+--
+
+INSERT INTO `sequence` (`name`, `prefix`, `pad_zero`, `val`) VALUES
+('other', 'other', 5, 1),
+('user_id', 'baijiou', 5, 1);
+
+--
+-- 已匯出資料表的索引
+--
+
+--
+-- 資料表索引 `sequence`
+--
+ALTER TABLE `sequence`
+  ADD PRIMARY KEY (`name`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
